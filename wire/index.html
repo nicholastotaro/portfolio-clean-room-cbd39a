@@ -45,12 +45,12 @@ img,svg{max-width:100%;display:block}
 
 /* wire ribbon, so this reads as a wire not a finished comp */
 .ribbon{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
-  border-bottom:1px solid var(--line);padding:.55rem 0}
+  padding:.5rem 0}
 .ribbon .wrap{display:flex;justify-content:space-between;gap:1rem}
 
 /* top bar */
 .bar{position:sticky;top:0;background:color-mix(in srgb,var(--paper) 88%,transparent);
-  backdrop-filter:saturate(1.1) blur(6px);border-bottom:1px solid var(--line);z-index:5}
+  backdrop-filter:saturate(1.1) blur(6px);z-index:5}
 .bar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .mark{font-weight:600;letter-spacing:-0.01em}
 .nav{display:flex;gap:clamp(1rem,4vw,2rem);font-size:.9375rem;color:var(--muted)}
@@ -85,7 +85,7 @@ section{padding-block:var(--space)}
 .more:hover{color:var(--muted);border-color:var(--muted)}
 
 /* impact strip */
-.impact{border-block:1px solid var(--rule);display:grid;gap:0}
+.impact{display:grid;gap:0}
 .impact .cell{padding:1.5rem 0}
 .impact .k{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .5rem}
 .impact .v{font-size:clamp(2rem,1.4rem + 2.2vw,2.75rem);line-height:1;letter-spacing:-0.02em;margin:0 0 .5rem}
@@ -100,13 +100,13 @@ section{padding-block:var(--space)}
 .beat p{color:var(--ink);max-width:var(--measure);margin:0}
 
 /* pull quote */
-.quote{border-top:1px solid var(--line);text-align:left}
+.quote{text-align:left}
 .quote blockquote{margin:0;font-size:clamp(1.4rem,1.1rem + 1.6vw,2rem);
   line-height:1.25;letter-spacing:-0.01em;max-width:24ch}
 .quote cite{display:block;margin-top:1.25rem;font-size:.9375rem;font-style:normal;color:var(--muted)}
 
 /* footer */
-footer{border-top:1px solid var(--rule);padding-block:var(--space)}
+footer{padding-block:var(--space)}
 footer .lead{font-size:clamp(1.15rem,1rem + 0.7vw,1.5rem);max-width:34ch;margin:0 0 1.75rem}
 footer .links{display:flex;flex-wrap:wrap;gap:1.5rem;font-size:.9375rem;color:var(--muted)}
 footer .links a{border-bottom:1px solid var(--line-strong);padding-bottom:2px}
@@ -142,13 +142,12 @@ footer .links a:hover{color:var(--ink);border-color:var(--ink)}
   <!-- HERO: leads with Chai, work-forward. Playfair appears here only. -->
   <section aria-labelledby="hero-h1">
     <div class="wrap">
-      <p class="eyebrow">Two-time founding designer. 15+ years across biotech, healthcare, and climate.</p>
-      <h1 class="h1" id="hero-h1">Eight years as Chai's founding and sole designer.</h1>
-      <p class="standfirst">One qPCR device family across iPad, browser, and an embedded LCD. Built for PhD researchers, craft brewers, and field operators. <span class="dim">In 60+ countries and 19 of the top 20 biomedical research universities.</span></p>
+      <h1 class="h1" id="hero-h1">Founding Designer at Chai Biotechnologies and SmithRx</h1>
+      <p class="standfirst">15+ years designing brands, products, and systems in biotech, healthcare, and climate.</p>
       <figure style="margin:0">
         <div class="slot">
           <span class="tag">Animated</span>
-          <span class="label">Chai · oversized product visual or animated feature abstraction (16:9)</span>
+          <span class="label">Chai · featured product visual or animated feature abstraction (16:9)</span>
         </div>
         <figcaption class="cap">The work carries the page. This slot is where the animated abstraction lives.</figcaption>
       </figure>
