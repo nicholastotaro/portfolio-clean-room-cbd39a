@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en" data-theme-pref="auto">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nick Totaro · The Founding Designer Edition</title>
+<meta name="description" content="Nick Totaro. Two-time founding designer. Built brand, product, and systems at Chai Biotechnologies and SmithRx. Available Q3 2026." />
+
+<!--
+  ============================================================================
+  DIRECTION C  ·  EDITORIAL NEWSPAPER / FRONT-PAGE
+  Clean-room portfolio front page for Nick Totaro.
+  Self-contained: inline CSS + JS, no build step, no framework.
+
+  Design POV: a real broadsheet front page, not a "newspaper-themed site".
+    - Masthead wordmark + a hairline dateline rule (the bar a real paper runs
+      under its nameplate: edition, dateline, section markers).
+    - Five-column editorial grid on desktop -> single column on phone.
+    - Column rules between stories; kickers in grotesque small-caps; a drop
+      cap on the lead standfirst; a stats strip set as "masthead statistics".
+    - One accent (editorial vermilion ink) over a warm near-white ground.
+  Type:
+    - Fraunces (optical display serif) for masthead + headlines. Real
+      character at large optical sizes, the opposite of Inter-on-white.
+    - Spectral for body/standfirsts (a screen-tuned reading serif).
+    - Darker Grotesque for kickers, labels, dateline, captions (the sans a
+      paper uses for metadata).
+  Lineage: Robin Noguier, Julius Gehrig, classic broadsheet front pages.
+  ============================================================================
+-->
+
+<!-- Pre-paint theme resolution: read the stored choice BEFORE first paint so
+     dark mode never flashes. Inlined in <head> on purpose, runs synchronously. -->
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('nt-theme'); // 'light' | 'dark' | null
+      var root = document.documentElement;
+      if (stored === 'light' || stored === 'dark') {
+        root.setAttribute('data-theme', stored);
+        root.setAttribute('data-theme-pref', stored);
+      } else {
+        // No explicit choice: follow the OS. data-theme stays unset and the
+        // CSS prefers-color-scheme query takes over.
+        root.setAttribute('data-theme-pref', 'auto');
+      }
+    } catch (e) { /* localStorage blocked: fall back to media query */ }
+  })();
+</script>
+
+<!-- Fonts: preconnect first, then a single non-blocking stylesheet load.
+     font-display:swap is set by Google Fonts; text paints immediately. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Darker+Grotesque:wght@500;600;700;800&display=swap" />
+
+<style>
+  /* ========================================================================
+     TOKENS
+     Light = warm broadsheet stock. Dark = an "evening edition" ink ground.
+     Nick's locked anchors are the light theme's spine:
+       Paper  #f8f6f1   Ink #1a1a18   Mid #8a877f
+     Divergence (noted in summary): added ONE accent, a warm vermilion
+     printing ink (#c0392b family, tuned to #b23a2e for AA on paper), plus a
+     considered dark variant. Anchors themselves are unchanged.
+     ===================================================================== */
+  :root {
+    /* --- locked light palette --- */
+    --paper:        #f8f6f1;  /* warm near-white ground (LOCKED) */
+    --paper-2:      #f1eee6;  /* slightly recessed panel stock */
+    --paper-edge:   #e7e3d8;  /* card / poster fill */
+    --ink:          #1a1a18;  /* near-black ink (LOCKED) */
+    --ink-soft:     #33322e;  /* secondary text */
+    --mid:          #8a877f;  /* muted metadata (LOCKED) */
+    --rule:         #ccc7ba;  /* hairline rules */
+    --rule-strong:  #1a1a18;  /* heavy masthead rules */
+    --accent:       #b23a2e;  /* vermilion editorial ink (AA on paper) */
+    --accent-ink:   #ffffff;  /* text on accent */
+    --focus:        #b23a2e;  /* focus ring base */
+
+    /* --- type --- */
+    --serif-display: "Fraunces", "Times New Roman", Georgia, serif;
+    --serif-body:    "Spectral", Georgia, "Times New Roman", serif;
+    --sans-meta:     "Darker Grotesque", "Helvetica Neue", Arial, sans-serif;
+
+    /* --- editorial measure / rhythm --- */
+    --measure: 68ch;
+    --gutter: clamp(1.1rem, 4vw, 2.4rem);
+    --col-gap: clamp(1.4rem, 2.4vw, 2.6rem);
+    --rule-w: 1px;
+
+    color-scheme: light;
+  }
+
+  /* Manual dark, and OS dark when no explicit choice is stored.
+     Both resolve to the same custom-property set. */
+  :root[data-theme="dark"],
+  :root[data-theme-pref="auto"] {
+    color-scheme: light; /* default; overridden just below for real dark */
+  }
+  :root[data-theme="dark"] {
+    --paper:        #16151a;  /* ink-blue evening ground */
+    --paper-2:      #1d1c22;
+    --paper-edge:   #232128;
+    --ink:          #f3f0e8;  /* warm paper-white type */
+    --ink-soft:     #cdc9bf;
+    --mid:          #9a968c;
+    --rule:         #38353f;
+    --rule-strong:  #f3f0e8;
+    --accent:       #f0654f;  /* brightened vermilion for dark contrast (AA) */
+    --accent-ink:   #16151a;
+    --focus:        #f0654f;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme-pref="auto"] {
+      --paper:        #16151a;
+      --paper-2:      #1d1c22;
+      --paper-edge:   #232128;
+      --ink:          #f3f0e8;
+      --ink-soft:     #cdc9bf;
+      --mid:          #9a968c;
+      --rule:         #38353f;
+      --rule-strong:  #f3f0e8;
+      --accent:       #f0654f;
+      --accent-ink:   #16151a;
+      --focus:        #f0654f;
+      color-scheme: dark;
+    }
+  }
+
+  /* ========================================================================
+     RESET / BASE
+     ===================================================================== */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif-body);
+    font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.14rem);
+    line-height: 1.5;
+    /* a faint paper tooth: a low-contrast diagonal weave for atmosphere,
+       not a flat fill. Pure CSS, no image request, no CLS. */
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        color-mix(in srgb, var(--ink) 2%, transparent) 0 1px,
+        transparent 1px 7px
+      );
+    background-attachment: fixed;
+    transition: background-color .35s ease, color .35s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  /* Visible, high-contrast focus for keyboard users in BOTH themes. */
+  :where(a, button, [tabindex]):focus-visible {
+    outline: 2.5px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* Skip link for screen-reader / keyboard users. */
+  .skip {
+    position: absolute; left: var(--gutter); top: -4rem;
+    background: var(--ink); color: var(--paper);
+    padding: .55rem .9rem; z-index: 100;
+    font-family: var(--sans-meta); font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em; font-size: .9rem;
+    transition: top .18s ease;
+  }
+  .skip:focus { top: .8rem; }
+
+  .wrap { max-width: 1320px; margin-inline: auto; padding-inline: var(--gutter); }
+
+  /* small grotesque utility for kickers / labels / metadata */
+  .meta {
+    font-family: var(--sans-meta);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .11em;
+    font-size: .82rem;
+    line-height: 1.1;
+    color: var(--mid);
+  }
+
+  /* ========================================================================
+     MASTHEAD  (the nameplate block)
+     ===================================================================== */
+  .masthead {
+    padding-top: clamp(1rem, 3.4vw, 2rem);
+  }
+  /* top edition rule: section markers + the theme control live here */
+  .edition {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    border-top: 2px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule);
+    padding: .5rem 0;
+  }
+  .edition__left,
+  .edition__right { display: flex; align-items: center; gap: clamp(.6rem,1.5vw,1.2rem); }
+  .edition .meta { color: var(--ink-soft); }
+  .edition .sep { color: var(--rule); }
+  /* hide the lowest-priority edition markers on the narrowest phones */
+  @media (max-width: 30rem) { .edition__left .opt { display: none; } }
+
+  /* theme toggle: a labeled, keyboard-reachable switch, set in metadata type */
+  .toggle {
+    appearance: none;
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--sans-meta);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-size: .8rem;
+    padding: .34rem .7rem .3rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    line-height: 1;
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .toggle:hover { background: var(--ink); color: var(--paper); }
+  .toggle__dot {
+    width: .62rem; height: .62rem; border-radius: 50%;
+    border: 1px solid currentColor;
+    background:
+      conic-gradient(currentColor 0 50%, transparent 50% 100%); /* half-moon */
+    transform: rotate(-20deg);
+  }
+  .toggle__label { display: inline; }
+
+  /* The nameplate itself */
+  .nameplate {
+    text-align: center;
+    padding: clamp(.7rem, 2.2vw, 1.4rem) 0 clamp(.5rem,1.4vw,.9rem);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nameplate h1 {
+    margin: 0;
+    font-family: var(--serif-display);
+    /* optical size pinned high so the serif shows its display personality */
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-size: clamp(2.9rem, 13.5vw, 9.5rem);
+    line-height: .9;
+    letter-spacing: -.012em;
+    /* tight broadsheet nameplate: small caps feel via wide tracking variant */
+    text-transform: none;
+    color: var(--ink);
+    view-transition-name: masthead-name; /* hero motion hook */
+  }
+  /* strapline under the nameplate: availability + niche, the broadsheet
+     "All the News..." slot, here carrying the positioning. */
+  .strapline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: .4rem clamp(.6rem, 2vw, 1.3rem);
+    margin-top: clamp(.5rem,1.4vw,.85rem);
+  }
+  .strapline .meta { color: var(--ink-soft); letter-spacing: .07em; }
+  /* live-status dot on the availability line */
+  .status {
+    display: inline-flex; align-items: center; gap: .5rem;
+    color: var(--accent);
+  }
+  .status__dot {
+    width: .6rem; height: .6rem; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  .niche-line { color: var(--mid); }
+
+  /* ========================================================================
+     MASTHEAD STATISTICS STRIP
+     The proof metrics, set as a paper's "by the numbers" band. Each is a
+     real anchor; captions attribute correctly (Chai vs SmithRx).
+     ===================================================================== */
+  .stats {
+    border-top: 2px solid var(--rule-strong);
+    border-bottom: 2px solid var(--rule-strong);
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: clamp(.9rem, 2.4vw, 1.4rem);
+  }
+  .stat {
+    padding: .85rem clamp(.6rem,2vw,1.4rem);
+    display: flex;
+    flex-direction: column;
+    gap: .18rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .stat:last-child { border-bottom: 0; }
+  .stat__num {
+    font-family: var(--serif-display);
+    font-weight: 700;
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+    line-height: .95;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    font-variant-numeric: lining-nums;
+  }
+  .stat__num .accent { color: var(--accent); }
+  .stat__cap { color: var(--mid); }
+  @media (min-width: 40rem) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-bottom: 0; border-right: 1px solid var(--rule); }
+    .stat:nth-child(2n) { border-right: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
+  }
+  @media (min-width: 64rem) {
+    .stats { grid-template-columns: repeat(4, 1fr); }
+    .stat { border-bottom: 0 !important; }
+    .stat:nth-child(2n) { border-right: 1px solid var(--rule); }
+    .stat:last-child { border-right: 0; }
+  }
+
+  /* ========================================================================
+     FRONT-PAGE GRID
+     Mobile-first: one column. Desktop: a 5-col broadsheet grid where the
+     lead story spans the dominant width and supporting stories sit beside
+     and below it. Column rules drawn with border-inline.
+     ===================================================================== */
+  .front {
+    padding-top: clamp(1.4rem, 3.5vw, 2.6rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+  .front__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 2.8rem);
+  }
+
+  /* --- the lead story --- */
+  .lead { display: flex; flex-direction: column; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: .55rem;
+    color: var(--accent);
+    font-family: var(--sans-meta);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: .86rem;
+    margin-bottom: .4rem;
+  }
+  .kicker::before {
+    content: "";
+    width: 1.8rem; height: 2px; background: var(--accent);
+  }
+  .lead__head {
+    font-family: var(--serif-display);
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: clamp(2rem, 7.5vw, 4.4rem);
+    line-height: .98;
+    letter-spacing: -.018em;
+    margin: 0 0 .2rem;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .lead__head a { text-decoration: none; }
+  .lead__head a:hover { color: var(--accent); }
+
+  /* the video-ready hero slot: 16:9, poster fallback, play affordance */
+  .hero {
+    position: relative;
+    margin: clamp(.9rem,2vw,1.3rem) 0 clamp(1rem,2vw,1.4rem);
+    aspect-ratio: 16 / 9;            /* reserves space -> zero CLS */
+    width: 100%;
+    background: var(--paper-edge);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    /* poster substitute: a duotone editorial halftone field, pure CSS so no
+       image request and no layout shift. Stands in for the device still. */
+    background-image:
+      radial-gradient(circle at 1px 1px,
+        color-mix(in srgb, var(--ink) 22%, transparent) 1px, transparent 0);
+    background-size: 7px 7px;
+    view-transition-name: hero-frame;  /* named hero motion target */
+  }
+  .hero__poster {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: clamp(.8rem,2vw,1.2rem);
+    background:
+      linear-gradient(to top,
+        color-mix(in srgb, var(--ink) 60%, transparent) 0%,
+        transparent 55%);
+  }
+  .hero__tag {
+    font-family: var(--sans-meta);
+    font-weight: 800; text-transform: uppercase; letter-spacing: .1em;
+    font-size: .82rem; color: #fff;
+  }
+  .hero__sub {
+    font-family: var(--sans-meta); font-weight: 600;
+    color: rgba(255,255,255,.82); font-size: .82rem; letter-spacing: .04em;
+  }
+  .hero__play {
+    position: absolute; inset: 0; margin: auto;
+    width: clamp(3.4rem, 11vw, 4.6rem);
+    height: clamp(3.4rem, 11vw, 4.6rem);
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: color-mix(in srgb, var(--accent) 90%, transparent);
+    color: #fff;
+    display: grid; place-items: center;
+    cursor: pointer;
+  }
+  .hero__play::after {
+    content: "";
+    width: 0; height: 0; margin-left: .22em;
+    border-left: 1.05rem solid currentColor;
+    border-top: .66rem solid transparent;
+    border-bottom: .66rem solid transparent;
+  }
+  .hero__dur {
+    position: absolute; right: .7rem; top: .7rem;
+    font-family: var(--sans-meta); font-weight: 800;
+    font-size: .76rem; letter-spacing: .08em;
+    color: #fff; background: rgba(0,0,0,.45);
+    padding: .25rem .5rem; border-radius: 2px;
+  }
+
+  /* standfirst with a real drop cap */
+  .standfirst {
+    font-family: var(--serif-body);
+    font-size: clamp(1.06rem, 0.98rem + 0.5vw, 1.28rem);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+  }
+  .standfirst--lead::first-letter {
+    float: left;
+    font-family: var(--serif-display);
+    font-weight: 900;
+    font-size: 3.6em;
+    line-height: .76;
+    padding: .04em .12em 0 0;
+    color: var(--accent);
+  }
+  .byline { margin-top: .9rem; }
+
+  /* --- supporting story column --- */
+  .support { display: flex; flex-direction: column; gap: clamp(1.6rem,3vw,2rem); }
+  .story {
+    border-top: 2px solid var(--rule-strong);
+    padding-top: 1rem;
+    display: flex; flex-direction: column; gap: .5rem;
+  }
+  .story__head {
+    font-family: var(--serif-display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(1.35rem, 4.5vw, 1.85rem);
+    line-height: 1.02;
+    letter-spacing: -.012em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .story__head a { text-decoration: none; }
+  .story__head a:hover { color: var(--accent); }
+  .story__sub { color: var(--ink-soft); font-size: 1rem; line-height: 1.46; }
+  .story__more {
+    font-family: var(--sans-meta); font-weight: 800;
+    text-transform: uppercase; letter-spacing: .1em; font-size: .82rem;
+    color: var(--accent); text-decoration: none;
+    display: inline-flex; align-items: center; gap: .4rem; margin-top: .15rem;
+  }
+  .story__more::after { content: "\2192"; transition: transform .2s ease; }
+  .story__more:hover::after { transform: translateX(.25rem); }
+
+  /* the climate card sits as a compact "brief" */
+  .brief {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: clamp(.9rem,2.4vw,1.2rem);
+  }
+  .brief .story__head { font-size: clamp(1.2rem,4vw,1.5rem); }
+
+  /* ---- DESKTOP: the multi-column broadsheet enhancement ---- */
+  @media (min-width: 64rem) {
+    .front__grid {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 0;
+    }
+    .lead {
+      padding-right: var(--col-gap);
+      border-right: 1px solid var(--rule);
+    }
+    .support {
+      padding-left: var(--col-gap);
+    }
+    /* lead headline gets to breathe wider */
+    .lead__head { font-size: clamp(2.6rem, 4.4vw, 4.6rem); }
+  }
+  /* very wide: pull the lead even more dominant, hint a third rhythm column */
+  @media (min-width: 90rem) {
+    .front__grid { grid-template-columns: minmax(0, 3.3fr) minmax(0, 1.7fr); }
+  }
+
+  /* ========================================================================
+     AI SIGNAL ROW + FOOTER (colophon)
+     ===================================================================== */
+  .signal {
+    border-top: 2px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    gap: .5rem 1rem;
+    padding: 1rem 0;
+  }
+  .signal a {
+    font-family: var(--serif-display); font-weight: 600;
+    font-size: clamp(1.1rem,3vw,1.4rem);
+    color: var(--ink); text-decoration: none;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 1px;
+  }
+  .signal a:hover { color: var(--accent); }
+  .signal .meta { color: var(--mid); }
+
+  .colophon {
+    padding: clamp(1.6rem,4vw,2.6rem) 0 clamp(2.4rem,6vw,3.6rem);
+    display: grid; gap: 1.2rem;
+  }
+  .colophon__rule { border-top: 1px solid var(--rule); }
+  .colophon__row {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    justify-content: space-between; gap: .8rem 1.4rem;
+  }
+  .colophon a {
+    font-family: var(--serif-body);
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--mid);
+  }
+  .colophon a:hover { border-color: var(--accent); color: var(--accent); }
+  .colophon__links { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: baseline; }
+  .colophon__email {
+    font-family: var(--serif-display); font-weight: 600;
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+    letter-spacing: -.01em;
+  }
+
+  /* ========================================================================
+     MOTION  - base is motion-free; animation only when the user allows it.
+     One named hero load: staggered reveal of the front page, plus the
+     View Transitions name on the nameplate + hero frame.
+     ===================================================================== */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(14px); }
+    .is-ready .reveal {
+      animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards;
+      animation-delay: var(--d, 0ms);
+    }
+    @keyframes rise {
+      to { opacity: 1; transform: none; }
+    }
+    /* the status dot breathes only when motion is allowed */
+    .status__dot { animation: ping 2.6s ease-out infinite; }
+    @keyframes ping {
+      0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+      70%  { box-shadow: 0 0 0 .5rem color-mix(in srgb, var(--accent) 0%, transparent); }
+      100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent); }
+    }
+    .hero__play { transition: transform .25s ease, background-color .25s ease; }
+    .hero:hover .hero__play { transform: scale(1.06); }
+  }
+  /* If reduced motion: reveals are simply visible, nothing animates. */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; }
+    * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+
+  /* View Transitions: name the elements that should morph between states
+     (e.g. theme flip, future navigation to a case-study route). */
+  @media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: .42s;
+    }
+  }
+
+  /* ========================================================================
+     COMMAND PALETTE (secondary nice-to-have): Cmd/Ctrl-K quiet nav
+     ===================================================================== */
+  .cmdk {
+    position: fixed; inset: 0; z-index: 200;
+    display: none;
+    background: color-mix(in srgb, var(--ink) 38%, transparent);
+    padding: clamp(2rem, 12vh, 8rem) var(--gutter) 2rem;
+  }
+  .cmdk[open], .cmdk.is-open { display: block; }
+  .cmdk__panel {
+    max-width: 560px; margin-inline: auto;
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 0 26px 60px -20px rgba(0,0,0,.5);
+  }
+  .cmdk__input {
+    width: 100%; border: 0; outline: 0;
+    background: transparent; color: var(--ink);
+    font-family: var(--serif-body); font-size: 1.15rem;
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cmdk__list { list-style: none; margin: 0; padding: .4rem; max-height: 50vh; overflow: auto; }
+  .cmdk__item {
+    display: flex; align-items: baseline; gap: .7rem;
+    padding: .65rem .8rem; cursor: pointer; text-decoration: none; color: var(--ink);
+  }
+  .cmdk__item[aria-selected="true"],
+  .cmdk__item:hover { background: var(--paper-2); }
+  .cmdk__item .meta { color: var(--mid); }
+  .cmdk__hint {
+    font-family: var(--sans-meta); font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; font-size: .72rem; color: var(--mid);
+    padding: .5rem .9rem; border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+  }
+  kbd {
+    font-family: var(--sans-meta); font-weight: 800; font-size: .72rem;
+    border: 1px solid var(--rule); border-bottom-width: 2px;
+    border-radius: 3px; padding: .05rem .35rem; color: var(--ink-soft);
+  }
+
+  /* visually-hidden, still read by AT */
+  .vh {
+    position: absolute !important; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+</style>
+<meta name="robots" content="noindex,nofollow"></head>
+
+<body>
+  <a class="skip" href="#lead-story">Skip to the lead story</a>
+
+  <header class="masthead wrap" role="banner">
+    <!-- Edition rule: section markers + theme control -->
+    <div class="edition">
+      <div class="edition__left">
+        <span class="meta">Founding Designer Edition</span>
+        <span class="sep meta opt">·</span>
+        <span class="meta opt">Biotech / Health / Climate</span>
+      </div>
+      <div class="edition__right">
+        <time class="meta" datetime="2026">Vol. XV · Est. 2011</time>
+        <button id="themeToggle" class="toggle" type="button" aria-pressed="false">
+          <span class="toggle__dot" aria-hidden="true"></span>
+          <span class="toggle__label" id="themeLabel">Dark</span>
+          <span class="vh">Toggle color theme</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Nameplate -->
+    <div class="nameplate">
+      <h1 class="reveal" style="--d:0ms">Nick Totaro</h1>
+      <p class="strapline reveal" style="--d:80ms">
+        <span class="status">
+          <span class="status__dot" aria-hidden="true"></span>
+          <span class="meta" style="color:var(--accent)">Available Q3 2026 · Founding-designer or staff / principal IC</span>
+        </span>
+        <span class="meta niche-line">Founding and sole-designer product work in regulated industries: bio, health, climate</span>
+      </p>
+    </div>
+
+    <!-- Masthead statistics: the proof strip. Captions attribute each anchor. -->
+    <section class="stats reveal" style="--d:150ms" aria-label="Career, by the numbers">
+      <div class="stat">
+        <span class="stat__num"><span class="accent">60+</span> countries</span>
+        <span class="stat__cap meta">Chai devices, in the field</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">19 <span style="font-family:var(--serif-body);font-weight:400;font-size:.7em">of the top</span> 20</span>
+        <span class="stat__cap meta">Biomedical research universities · Chai</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num"><span class="accent">$10M+</span></span>
+        <span class="stat__cap meta">Series A close · SmithRx</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">15 <span style="font-family:var(--serif-body);font-weight:400;font-size:.7em">years</span></span>
+        <span class="stat__cap meta">Across biotech, healthcare, climate</span>
+      </div>
+    </section>
+  </header>
+
+  <main class="front wrap" id="main">
+    <div class="front__grid">
+
+      <!-- ===================== LEAD STORY: CHAI ===================== -->
+      <article class="lead" id="lead-story" aria-labelledby="lead-head">
+        <p class="kicker reveal" style="--d:200ms">Lead · Chai Biotechnologies</p>
+
+        <h2 class="lead__head reveal" id="lead-head" style="--d:240ms">
+          <a href="#chai">Eight years designing what &ldquo;democratizing biotech&rdquo; looks like.</a>
+        </h2>
+
+        <!-- VIDEO-READY HERO SLOT: poster fallback + play affordance.
+             No real video file; this is the slot for a 60-90s walkthrough. -->
+        <figure class="hero reveal" style="--d:300ms" aria-label="Lead story walkthrough, video coming soon">
+          <span class="hero__dur" aria-hidden="true">60–90s</span>
+          <button class="hero__play" type="button"
+                  aria-label="Play the Chai walkthrough (video coming soon)"></button>
+          <figcaption class="hero__poster">
+            <span class="hero__tag">Walkthrough</span>
+            <span class="hero__sub">One qPCR device family · iPad, browser, 640&times;480 LCD</span>
+          </figcaption>
+        </figure>
+
+        <p class="standfirst standfirst--lead reveal" style="--d:340ms">
+          Founding and sole designer, 2015 to 2023, employee #3. One qPCR device
+          family across iPad, browser, and an embedded 640&times;480 LCD, for three
+          audiences: PhD researchers, craft brewers, field operators. In 60+
+          countries and 19 of the top 20 biomedical research universities.
+        </p>
+
+        <p class="byline">
+          <a class="story__more" href="#chai">Read the Chai case study</a>
+        </p>
+      </article>
+
+      <!-- ===================== SUPPORTING COLUMN ===================== -->
+      <aside class="support" aria-label="More stories">
+
+        <!-- SMITHRX -->
+        <article class="story reveal" style="--d:380ms" aria-labelledby="smithrx-head">
+          <p class="kicker">Product · Brand · Investor</p>
+          <h3 class="story__head" id="smithrx-head">
+            <a href="#smithrx">The product, brand, and investor story for a transparency-first PBM.</a>
+          </h3>
+          <p class="story__sub">
+            First design hire, 2016 to 2018. Patient app, admin tools, brand, and
+            the investor deck through a $10M+ Series A close.
+          </p>
+          <a class="story__more" href="#smithrx">Read SmithRx</a>
+        </article>
+
+        <!-- EPHEMERAL (climate brief card) -->
+        <article class="story brief reveal" style="--d:440ms" aria-labelledby="ephemeral-head">
+          <p class="kicker">Climate · Brief</p>
+          <h3 class="story__head" id="ephemeral-head">
+            <a href="#ephemeral">Ephemeral</a>
+          </h3>
+          <p class="story__sub">
+            Oceanic Enhanced Weathering. Totaro Design contract.
+          </p>
+          <a class="story__more" href="#ephemeral">Read the brief</a>
+        </article>
+
+      </aside>
+    </div>
+
+    <!-- AI signal row -->
+    <section class="signal reveal" style="--d:500ms" aria-label="How I work with AI">
+      <a href="#ai">How I work with AI</a>
+      <span class="meta">Studio tooling · skills, agents, and the pipeline I build around my own work</span>
+    </section>
+  </main>
+
+  <!-- ===================== COLOPHON / FOOTER ===================== -->
+  <footer class="colophon wrap" role="contentinfo">
+    <div class="colophon__rule"></div>
+    <div class="colophon__row">
+      <a class="colophon__email" href="mailto:nicholas.totaro@gmail.com">nicholas.totaro@gmail.com</a>
+      <nav class="colophon__links" aria-label="Elsewhere">
+        <a href="https://www.linkedin.com/" rel="me">LinkedIn</a>
+        <a href="/resume.pdf">/resume.pdf</a>
+      </nav>
+    </div>
+    <p class="meta" style="color:var(--mid)">
+      Set in Fraunces, Spectral, and Darker Grotesque · Nick Totaro, designer ·
+      <kbd>⌘</kbd>/<kbd>Ctrl</kbd> <kbd>K</kbd> to navigate
+    </p>
+  </footer>
+
+  <!-- ===================== COMMAND PALETTE ===================== -->
+  <div class="cmdk" id="cmdk" role="dialog" aria-modal="true" aria-label="Quick navigation" hidden>
+    <div class="cmdk__panel" role="document">
+      <input id="cmdkInput" class="cmdk__input" type="text"
+             placeholder="Jump to a story…" aria-label="Search stories and sections"
+             autocomplete="off" />
+      <ul id="cmdkList" class="cmdk__list" role="listbox" aria-label="Results"></ul>
+      <div class="cmdk__hint">
+        <span><kbd>↑</kbd><kbd>↓</kbd> move · <kbd>↵</kbd> open</span>
+        <span><kbd>Esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  /* ==========================================================================
+     1. THEME TOGGLE  - persisted, no-flash (pre-paint script already ran),
+        keyboard-reachable, labeled, with a View Transition on the flip.
+     ====================================================================== */
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var label = document.getElementById('themeLabel');
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // What is the *currently shown* theme, accounting for "auto"?
+    function effective() {
+      var explicit = root.getAttribute('data-theme');
+      if (explicit === 'dark' || explicit === 'light') return explicit;
+      return mq.matches ? 'dark' : 'light';
+    }
+
+    // Sync the button's label + state to whatever is on screen.
+    function syncButton() {
+      var isDark = effective() === 'dark';
+      // The button always offers the *other* theme.
+      label.textContent = isDark ? 'Light' : 'Dark';
+      btn.setAttribute('aria-pressed', String(isDark));
+      btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+
+    function apply(theme) {
+      root.setAttribute('data-theme', theme);
+      root.setAttribute('data-theme-pref', theme);
+      try { localStorage.setItem('nt-theme', theme); } catch (e) {}
+      syncButton();
+    }
+
+    btn.addEventListener('click', function () {
+      var next = effective() === 'dark' ? 'light' : 'dark';
+      // Morph the flip with a View Transition where supported + motion allowed.
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (document.startViewTransition && !reduce) {
+        document.startViewTransition(function () { apply(next); });
+      } else {
+        apply(next);
+      }
+    });
+
+    // If the user never made an explicit choice, track OS changes live.
+    mq.addEventListener('change', function () {
+      if (!root.getAttribute('data-theme')) syncButton();
+    });
+
+    syncButton();
+  })();
+
+  /* ==========================================================================
+     2. STAGGERED LOAD REVEAL  - only meaningful when motion is allowed; the
+        CSS already no-ops under reduced motion. We just flip the gate class.
+     ====================================================================== */
+  (function () {
+    // rAF so the initial (hidden) state paints before animation starts.
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        document.documentElement.classList.add('is-ready');
+      });
+    });
+  })();
+
+  /* ==========================================================================
+     3. HERO PLAY AFFORDANCE  - no real media; announce the placeholder state
+        instead of failing silently. (Future: swap for a real <video>.)
+     ====================================================================== */
+  (function () {
+    var play = document.querySelector('.hero__play');
+    if (!play) return;
+    play.addEventListener('click', function () {
+      play.setAttribute('aria-label', 'Walkthrough video coming soon');
+      // brief visual ack without committing to a fake player
+      play.animate(
+        [{ transform: 'scale(1)' }, { transform: 'scale(.9)' }, { transform: 'scale(1)' }],
+        { duration: 260, easing: 'ease-out' }
+      );
+    });
+  })();
+
+  /* ==========================================================================
+     4. COMMAND PALETTE  (Cmd/Ctrl-K)  - quiet, keyboard-driven nav.
+        Secondary feature; degrades to nothing if JS is off (links still work).
+     ====================================================================== */
+  (function () {
+    var ITEMS = [
+      { label: 'Chai Biotechnologies', meta: 'Lead story', href: '#chai' },
+      { label: 'SmithRx', meta: 'Product · Brand · Investor', href: '#smithrx' },
+      { label: 'Ephemeral', meta: 'Climate brief', href: '#ephemeral' },
+      { label: 'How I work with AI', meta: 'Studio tooling', href: '#ai' },
+      { label: 'Email Nick', meta: 'nicholas.totaro@gmail.com', href: 'mailto:nicholas.totaro@gmail.com' },
+      { label: 'Résumé (PDF)', meta: '/resume.pdf', href: '/resume.pdf' }
+    ];
+    var modal = document.getElementById('cmdk');
+    var input = document.getElementById('cmdkInput');
+    var list  = document.getElementById('cmdkList');
+    var sel = 0, filtered = ITEMS.slice(), lastFocus = null;
+
+    function render() {
+      list.innerHTML = '';
+      filtered.forEach(function (it, i) {
+        var li = document.createElement('li');
+        li.className = 'cmdk__item';
+        li.setAttribute('role', 'option');
+        li.id = 'cmdk-opt-' + i;
+        li.setAttribute('aria-selected', String(i === sel));
+        li.tabIndex = -1;
+        li.innerHTML = '<span>' + it.label + '</span><span class="meta">' + it.meta + '</span>';
+        li.addEventListener('click', function () { go(it.href); });
+        list.appendChild(li);
+      });
+      input.setAttribute('aria-activedescendant', filtered.length ? 'cmdk-opt-' + sel : '');
+    }
+    function filter() {
+      var q = input.value.trim().toLowerCase();
+      filtered = ITEMS.filter(function (it) {
+        return (it.label + ' ' + it.meta).toLowerCase().indexOf(q) !== -1;
+      });
+      sel = 0; render();
+    }
+    function open() {
+      lastFocus = document.activeElement;
+      modal.hidden = false; modal.classList.add('is-open');
+      input.value = ''; filter();
+      input.focus();
+    }
+    function close() {
+      modal.classList.remove('is-open'); modal.hidden = true;
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    function go(href) {
+      close();
+      if (href.charAt(0) === '#') {
+        var el = document.querySelector(href);
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', href);
+      } else {
+        window.location.href = href;
+      }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      var isK = (e.key === 'k' || e.key === 'K');
+      if ((e.metaKey || e.ctrlKey) && isK) { e.preventDefault(); modal.hidden ? open() : close(); return; }
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, filtered.length - 1); render(); }
+      else if (e.key === 'ArrowUp')   { e.preventDefault(); sel = Math.max(sel - 1, 0); render(); }
+      else if (e.key === 'Enter' && filtered[sel]) { e.preventDefault(); go(filtered[sel].href); }
+    });
+    input.addEventListener('input', filter);
+    // click on the dimmed backdrop (not the panel) closes
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+  })();
+</script>
+</body>
+</html>
