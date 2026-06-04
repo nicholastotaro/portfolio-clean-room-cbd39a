@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Nick Totaro — Home (lo-fi wire)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/*
+  Home — lo-fi wire. Direction (Nick, 2026-06-03):
+  light/white primary, clean sans (DM Sans), Playfair used ONCE on the hero H1,
+  lots of whitespace, the work does the heavy lifting (oversized 16:9 slots),
+  fresh minimal tokens scoped to this site. Leads with Chai.
+  Placeholder visuals only. Motion deferred. Real locked copy.
+*/
+:root{
+  color-scheme: light;
+  --paper:#fcfcfa;
+  --panel:#f2f1ec;          /* work-slot fill */
+  --ink:#1a1a18;            /* locked Ink */
+  --muted:#6e6a60;          /* AA-safe secondary on paper (4.99:1) */
+  --line:#e4e2db;
+  --line-strong:#cbc8bf;
+  --rule:#1a1a18;
+  --space: clamp(3.5rem, 9vw, 7rem);   /* section rhythm */
+  --measure: 62ch;
+  --maxw: 1080px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"DM Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  font-size:clamp(1rem,0.96rem + 0.3vw,1.125rem);
+  line-height:1.55;letter-spacing:-0.005em;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(1.25rem,5vw,2.5rem)}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+img,svg{max-width:100%;display:block}
+
+/* wire ribbon, so this reads as a wire not a finished comp */
+.ribbon{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--line);padding:.55rem 0}
+.ribbon .wrap{display:flex;justify-content:space-between;gap:1rem}
+
+/* top bar */
+.bar{position:sticky;top:0;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:saturate(1.1) blur(6px);border-bottom:1px solid var(--line);z-index:5}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.mark{font-weight:600;letter-spacing:-0.01em}
+.nav{display:flex;gap:clamp(1rem,4vw,2rem);font-size:.9375rem;color:var(--muted)}
+.nav a:hover{color:var(--ink)}
+
+/* sections */
+section{padding-block:var(--space)}
+.band{padding-block:clamp(2.5rem,6vw,4rem)}
+.eyebrow{font-size:.875rem;letter-spacing:.02em;color:var(--muted);margin:0 0 1.25rem}
+.h1{
+  font-family:"Playfair Display",Georgia,serif;font-weight:500;
+  font-size:clamp(2.4rem,1.4rem + 4.6vw,4.5rem);line-height:1.02;
+  letter-spacing:-0.015em;margin:0 0 1.5rem;max-width:18ch;
+}
+.standfirst{font-size:clamp(1.05rem,1rem + 0.5vw,1.3rem);color:var(--ink);
+  max-width:var(--measure);margin:0 0 2rem}
+.standfirst .dim{color:var(--ink);font-weight:500}
+
+/* work slot */
+.slot{position:relative;aspect-ratio:16/9;background:var(--panel);
+  border:1px solid var(--line-strong);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;text-align:center}
+.slot.tall{aspect-ratio:4/3}
+.slot .label{color:var(--muted);font-size:.875rem;letter-spacing:.02em;padding:1rem;max-width:34ch}
+.slot .tag{position:absolute;top:.75rem;left:.75rem;font-size:.68rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);border:1px solid var(--line-strong);
+  border-radius:100px;padding:.2rem .6rem;background:var(--paper)}
+.cap{font-size:.875rem;color:var(--muted);margin:.75rem 0 0}
+
+.more{display:inline-block;margin-top:1.5rem;font-weight:500;
+  border-bottom:1.5px solid var(--ink);padding-bottom:2px}
+.more:hover{color:var(--muted);border-color:var(--muted)}
+
+/* impact strip */
+.impact{border-block:1px solid var(--rule);display:grid;gap:0}
+.impact .cell{padding:1.5rem 0}
+.impact .k{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .5rem}
+.impact .v{font-size:clamp(2rem,1.4rem + 2.2vw,2.75rem);line-height:1;letter-spacing:-0.02em;margin:0 0 .5rem}
+.impact .c{font-size:.9375rem;color:var(--muted);margin:0;max-width:30ch}
+
+/* project beats */
+.beat{display:grid;gap:1.5rem}
+.beat + .beat{margin-top:var(--space)}
+.beat h2{font-weight:600;font-size:clamp(1.6rem,1.2rem + 1.8vw,2.5rem);
+  line-height:1.1;letter-spacing:-0.015em;margin:0}
+.beat .role{font-size:.875rem;letter-spacing:.02em;color:var(--muted);margin:0 0 .25rem}
+.beat p{color:var(--ink);max-width:var(--measure);margin:0}
+
+/* pull quote */
+.quote{border-top:1px solid var(--line);text-align:left}
+.quote blockquote{margin:0;font-size:clamp(1.4rem,1.1rem + 1.6vw,2rem);
+  line-height:1.25;letter-spacing:-0.01em;max-width:24ch}
+.quote cite{display:block;margin-top:1.25rem;font-size:.9375rem;font-style:normal;color:var(--muted)}
+
+/* footer */
+footer{border-top:1px solid var(--rule);padding-block:var(--space)}
+footer .lead{font-size:clamp(1.15rem,1rem + 0.7vw,1.5rem);max-width:34ch;margin:0 0 1.75rem}
+footer .links{display:flex;flex-wrap:wrap;gap:1.5rem;font-size:.9375rem;color:var(--muted)}
+footer .links a{border-bottom:1px solid var(--line-strong);padding-bottom:2px}
+footer .links a:hover{color:var(--ink);border-color:var(--ink)}
+
+@media (min-width:760px){
+  .impact{grid-template-columns:repeat(3,1fr);column-gap:2.5rem}
+  .impact .cell{padding:2rem 0}
+  .beat{grid-template-columns:1fr;max-width:var(--maxw)}
+}
+@media (prefers-reduced-motion: no-preference){
+  .bar{transition:border-color .2s}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"></head>
+<body>
+
+<div class="ribbon"><div class="wrap"><span>Lo-fi wire</span><span>Home · light / sans / whitespace · v1</span></div></div>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#">Nick Totaro</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO: leads with Chai, work-forward. Playfair appears here only. -->
+  <section aria-labelledby="hero-h1">
+    <div class="wrap">
+      <p class="eyebrow">Two-time founding designer. 15+ years across biotech, healthcare, and climate.</p>
+      <h1 class="h1" id="hero-h1">Eight years as Chai's founding and sole designer.</h1>
+      <p class="standfirst">One qPCR device family across iPad, browser, and an embedded LCD. Built for PhD researchers, craft brewers, and field operators. <span class="dim">In 60+ countries and 19 of the top 20 biomedical research universities.</span></p>
+      <figure style="margin:0">
+        <div class="slot">
+          <span class="tag">Animated</span>
+          <span class="label">Chai · oversized product visual or animated feature abstraction (16:9)</span>
+        </div>
+        <figcaption class="cap">The work carries the page. This slot is where the animated abstraction lives.</figcaption>
+      </figure>
+      <a class="more" href="#">Read the Chai story</a>
+    </div>
+  </section>
+
+  <!-- IMPACT STRIP: 30-second proof -->
+  <section class="band" aria-label="Proof">
+    <div class="wrap">
+      <div class="impact">
+        <div class="cell"><p class="k">Adoption</p><p class="v">19 of 20</p><p class="c">Top biomedical research universities worldwide. Chai.</p></div>
+        <div class="cell"><p class="k">Funding</p><p class="v">$10M+</p><p class="c">Raised at SmithRx on the strength of the designed pitch deck.</p></div>
+        <div class="cell"><p class="k">Tenure</p><p class="v">8 years</p><p class="c">Founding designer at Chai, 2015 to 2023.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT BEATS -->
+  <section id="work" aria-label="Selected work">
+    <div class="wrap">
+
+      <article class="beat">
+        <div class="slot"><span class="tag">Animated</span><span class="label">SmithRx · patient app and admin tooling (16:9)</span></div>
+        <div>
+          <p class="role">SmithRx · first design hire · 2016 to 2018</p>
+          <h2>Transparency in a category built on opacity.</h2>
+          <p>The patient app, admin tools, brand, and the investor deck for a transparency-first pharmacy benefit manager, through a $10M+ Series A close.</p>
+          <a class="more" href="#">Read the SmithRx story</a>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="slot"><span class="tag">Animated</span><span class="label">Ephemeral · identity and product (16:9)</span></div>
+        <div>
+          <p class="role">Ephemeral · Totaro Design contract · climate</p>
+          <h2>Real science in a category full of bad actors.</h2>
+          <p>Identity, web, and the pitch and conference materials for an Oceanic Enhanced Weathering venture. The eight-year working relationship with the Chai founder, continued.</p>
+          <a class="more" href="#">See the work</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- PULL QUOTE: Neil Spears, dropped here rather than leading -->
+  <section class="quote" aria-label="Testimonial">
+    <div class="wrap">
+      <blockquote>It gives me chills to think we might have saved lives.</blockquote>
+      <cite>Neil Spears, Executive Director, SIJCC, Los Angeles</cite>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <p class="lead">Open to founding-designer and staff or principal IC roles in biotech, healthcare, and climate.</p>
+    <div class="links">
+      <a href="mailto:nicholas.totaro@gmail.com">nicholas.totaro@gmail.com</a>
+      <a href="#">Resume (PDF)</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
