@@ -99,6 +99,13 @@ section{padding-block:var(--space)}
 .beat .role{font-size:.875rem;letter-spacing:.02em;color:var(--muted);margin:0 0 .25rem}
 .beat p{color:var(--ink);max-width:var(--measure);margin:0}
 
+/* featured project (Chai): dominant treatment */
+.featured .role{font-size:.875rem;letter-spacing:.02em;color:var(--muted);margin:0 0 1rem}
+.feat-h{font-weight:600;font-size:clamp(1.9rem,1.3rem + 3vw,3.25rem);line-height:1.08;letter-spacing:-0.02em;margin:0 0 1.75rem;max-width:20ch}
+.feat-lead{font-size:clamp(1.05rem,1rem + 0.5vw,1.3rem);color:var(--ink);max-width:var(--measure);margin:1.75rem 0 0}
+/* supporting project, lighter */
+.beat--minor h2{font-size:clamp(1.35rem,1.1rem + 1vw,1.85rem)}
+
 /* pull quote */
 .quote{text-align:left}
 .quote blockquote{margin:0;font-size:clamp(1.4rem,1.1rem + 1.6vw,2rem);
@@ -139,24 +146,30 @@ footer .links a:hover{color:var(--ink);border-color:var(--ink)}
 
 <main>
 
-  <!-- HERO: leads with Chai, work-forward. Playfair appears here only. -->
+  <!-- HERO: identity. Playfair appears here only. -->
   <section aria-labelledby="hero-h1">
     <div class="wrap">
       <h1 class="h1" id="hero-h1">Founding Designer at Chai Biotechnologies and SmithRx</h1>
       <p class="standfirst">15+ years designing brands, products, and systems in biotech, healthcare, and climate.</p>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECT: Chai. Dominant treatment; the work leads. -->
+  <section class="featured" id="work" aria-label="Featured project, Chai">
+    <div class="wrap">
+      <p class="role">Chai Biotechnologies · Founding and sole designer · 2015 to 2023 · employee #3</p>
+      <h2 class="feat-h">Make a qPCR device a top-20 biomedical lab would buy, a craft brewer would afford, and a preschool director could run.</h2>
       <figure style="margin:0">
-        <div class="slot">
-          <span class="tag">Animated</span>
-          <span class="label">Chai · featured product visual or animated feature abstraction (16:9)</span>
-        </div>
+        <div class="slot"><span class="tag">Animated</span><span class="label">Chai · featured product visual or animated feature abstraction (16:9)</span></div>
         <figcaption class="cap">60+ countries. 19 of the top 20 biomedical research universities.</figcaption>
       </figure>
+      <p class="feat-lead">One device family across iPad, browser, and an embedded LCD. Built for PhD researchers, craft brewers, and field operators. The brand, the product, the packaging, and the trade show, all from one designer.</p>
       <a class="more" href="#">Read the Chai story</a>
     </div>
   </section>
 
-  <!-- PROJECT BEATS -->
-  <section id="work" aria-label="Selected work">
+  <!-- SUPPORTING PROJECTS -->
+  <section aria-label="Supporting work">
     <div class="wrap">
 
       <article class="beat">
@@ -169,7 +182,7 @@ footer .links a:hover{color:var(--ink);border-color:var(--ink)}
         </div>
       </article>
 
-      <article class="beat">
+      <article class="beat beat--minor">
         <div class="slot"><span class="tag">Animated</span><span class="label">Ephemeral · identity and product (16:9)</span></div>
         <div>
           <p class="role">Ephemeral · Totaro Design contract · climate</p>
